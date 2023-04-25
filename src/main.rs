@@ -36,7 +36,12 @@ fn main() {
     let render_result = controller.render();
 
     match render_result {
-        Ok(_) => thread::sleep(Duration::from_secs(5)),
+        Ok(_) => {
+            thread::sleep(Duration::from_secs(5));
+            let leds = controller.leds_mut(0);
+            leds[0] = [0, 0, 0, 0];
+            let _ = controller.render();
+        },
         Err(error) => panic!("Problem tearing down: {:?}", error),
     }
 }
