@@ -6,6 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+rppal = "0.14.1"
 #bonsai-bt = "0.4.9"
 #linux-embedded-hal = "0.3.2"
 #mpu6050 = "0.1.6"
