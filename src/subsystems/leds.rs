@@ -11,7 +11,7 @@ pub struct LedController {
 }
 
 impl LedController {
-    pub fn demo(&mut self) -> () {
+    pub fn demo(&mut self) {
         // get the strand of LEDs on channel 1
         let leds = self.controller.leds_mut(0);
         // set the first LED to white (with the configured
@@ -52,7 +52,5 @@ pub fn setup() -> LedController {
         Ok(c) => c,
         Err(error) => panic!("Problem interfacing with the LED devices: {:?}", error),
     };
-    LedController {
-        controller: controller,
-    }
+    LedController { controller }
 }
