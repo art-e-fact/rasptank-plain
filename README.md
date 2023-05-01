@@ -6,4 +6,5 @@ The software is "plain" as it is self-contained and relies on no framework like 
 
 ## Status
 
-* Basic coverage of LEDs and caterpillar motion.
+* Basic coverage of LEDs.
+* Forward caterpillar motion.
