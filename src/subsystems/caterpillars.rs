@@ -14,11 +14,11 @@ pub struct Caterpillars {
 
 impl Caterpillars {
     pub fn forward(&mut self, seconds: u64, speed: f64) -> Result<u64, Error> {
-        self.left_motor_pin1.set_low();
-        self.left_motor_pin2.set_high();
+        self.left_motor_pin1.set_high();
+        self.left_motor_pin2.set_low();
         self.left_motor_pin_en.set_pwm_frequency(1000.0, speed);
-        self.right_motor_pin1.set_high();
-        self.right_motor_pin2.set_low();
+        self.right_motor_pin1.set_low();
+        self.right_motor_pin2.set_high();
         self.right_motor_pin_en.set_pwm_frequency(1000.0, speed);
         thread::sleep(Duration::from_secs(seconds));
         self.left_motor_pin1.set_low();
