@@ -1,7 +1,13 @@
-use std::thread;
-use std::time::Duration;
-
 use rppal::gpio::{Gpio, Error, OutputPin};
+
+#[derive(Debug)]
+pub enum State {
+    Stopped,
+    Forward,
+    Backward,
+    TurningLeft,
+    TurningRight,
+}
 
 pub struct Caterpillars {
     pub left_motor_pin1: OutputPin,
@@ -10,24 +16,30 @@ pub struct Caterpillars {
     pub right_motor_pin1: OutputPin,
     pub right_motor_pin2: OutputPin,
     pub right_motor_pin_en: OutputPin,
+    pub state: State,
 }
 
 impl Caterpillars {
-    pub fn forward(&mut self, seconds: u64, speed: f64) -> Result<u64, Error> {
+    pub fn forward(&mut self, speed: f64) -> Result<State, Error> {
         self.left_motor_pin1.set_high();
         self.left_motor_pin2.set_low();
         self.left_motor_pin_en.set_pwm_frequency(1000.0, speed);
         self.right_motor_pin1.set_low();
         self.right_motor_pin2.set_high();
         self.right_motor_pin_en.set_pwm_frequency(1000.0, speed);
-        thread::sleep(Duration::from_secs(seconds));
+        self.state = State::Forward;
+        Ok(State::Forward)
+    }
+
+    pub fn stop(&mut self) -> Result<State, Error> {
         self.left_motor_pin1.set_low();
         self.left_motor_pin2.set_low();
         self.left_motor_pin_en.clear_pwm();
         self.right_motor_pin1.set_low();
         self.right_motor_pin2.set_low();
         self.right_motor_pin_en.clear_pwm();
-        Ok(seconds)
+        self.state = State::Stopped;
+        Ok(State::Stopped)
     }
 }
 
@@ -53,6 +65,7 @@ pub fn setup(lmp1n: u8, lmp2n: u8, lmpenn: u8, rmp1n: u8, rmp2n: u8, rmpenn: u8)
             right_motor_pin1: rmp1,
             right_motor_pin2: rmp2,
             right_motor_pin_en: rmpen,
+            state: State::Stopped,
         }
       )
 }
