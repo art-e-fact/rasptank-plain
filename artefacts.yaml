@@ -1,0 +1,17 @@
+version: 0.1.0
+
+project: pitank
+
+jobs:
+  test:
+    package:
+      docker:
+        build:
+          dockerfile: ./Dockerfile
+    runtime:
+      framework: other
+      simulator: gazebo:fortress
+    scenarios:
+      defaults: {}
+      settings: []
+    type: test
